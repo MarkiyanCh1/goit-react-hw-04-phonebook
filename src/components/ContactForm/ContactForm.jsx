@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ErrMessage, StyledForm, Input } from './ContactForm.styles';
 import { ButtonClose } from 'components/ContactCard/ContactCard.styles';
+import { nanoid } from 'nanoid';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -27,14 +28,16 @@ const ContactForm = ({ onAdd }) => {
       initialValues={{
         name: '',
         number: '',
+        id: nanoid(),
       }}
       validationSchema={contactSchema}
-      onSubmit={(values, actions) => {
-        onAdd(values);
+      onSubmit={(values, actions, id) => {
+        onAdd(values, id);
         actions.resetForm({
           values: {
             name: '',
             number: '',
+            id: nanoid(),
           },
         });
       }}
